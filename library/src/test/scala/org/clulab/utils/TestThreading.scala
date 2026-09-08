@@ -1,5 +1,7 @@
 package org.clulab.utils
 
+import scala.util.Using
+
 class TestThreading extends Test {
   val threads = 26
   val numbers = 0.until(threads)
@@ -22,11 +24,8 @@ class TestThreading extends Test {
   it should "shut down its thread pool when closed" in {
     val parallelizer = new InspectableParallelizer(numbers, threads)
 
-    try {
-      parallelizer.par.sum should be(numbers.sum)
-    }
-    finally {
-      parallelizer.close()
+    Using.resource(parallelizer) { resource =>
+      resource.par.sum should be(numbers.sum)
     }
 
     parallelizer.isShutdown should be(true)
