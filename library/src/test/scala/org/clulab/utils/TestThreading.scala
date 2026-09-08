@@ -7,7 +7,7 @@ class TestThreading extends Test {
   val numbers = 0.until(threads)
 
   {
-    val parNumbers = ThreadUtils.parallelize(numbers)
+    val parNumbers = Parallelizer.parallelize(numbers)
 
     parNumbers.foreach { number =>
       println(number)
